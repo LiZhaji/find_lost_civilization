@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .bgBox {
+        background: black;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        color: aliceblue;
+        display: flex;
+        align-items: center;
+        padding: 0px 20%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bgBox" id="bgBox">
+      <div>assas</div>
+    </div>
+    <script src="./words.json"></script>
+    <script>
+      console.log(words);
+      const bgBox = document.querySelector("#bgBox");
+      function printPage1(params) {
+        let page1 = [...words.bg.p1];
+        let content = "";
+        let i = 0;
+        let lastTime = 0;
+        let raf;
+        function printBg(nowTime) {
+          raf = requestAnimationFrame(printBg);
+          // 锁帧
+          if (nowTime - lastTime <= 150) {
+            return;
+          }
+          if (i >= page1.length) {
+            cancelAnimationFrame(raf);
+            return;
+          }
+          content += page1[i];
+          bgBox.innerText = content;
+          i++;
+          lastTime = nowTime;
+        }
+        requestAnimationFrame(printBg);
+      }
+      printPage1()
+    </script>
+  </body>
+</html>
