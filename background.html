@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <style>
-      .bgBox {
+      .bgOuter {
         background: black;
         position: absolute;
         left: 0;
@@ -16,42 +16,55 @@
         color: aliceblue;
         display: flex;
         align-items: center;
-        padding: 0px 20%;
+        justify-content: center;
+        padding: 0px 20vw;
       }
+      /* #bgBox{
+        min-width: 60vw;
+      } */
     </style>
   </head>
   <body>
-    <div class="bgBox" id="bgBox">
-      <div>assas</div>
+    <div class="bgOuter" >
+      <div id="bgBox">assas</div>
     </div>
-    <script src="./words.json"></script>
+    <script src="./words.js"></script>
     <script>
+      (async()=>{
       console.log(words);
       const bgBox = document.querySelector("#bgBox");
-      function printPage1(params) {
-        let page1 = [...words.bg.p1];
+      const values = Object.values(words.bg)
+      for (const value of values) {
+        await printPage(value)
+      }
+      // printPage([...words.bg.p3]);
+      // printPage([...words.targetIntroducer]);
+      function printPage(curPage) {
+        return new Promise((r)=>{
         let content = "";
         let i = 0;
         let lastTime = 0;
         let raf;
+        bgBox.innerText = "";
+        requestAnimationFrame(printBg);
         function printBg(nowTime) {
           raf = requestAnimationFrame(printBg);
           // 锁帧
-          if (nowTime - lastTime <= 150) {
+          if (nowTime - lastTime <= 200) {
             return;
           }
-          if (i >= page1.length) {
+          if (i >= curPage.length) {
             cancelAnimationFrame(raf);
-            return;
+            r()
+            return
           }
-          content += page1[i];
+          content += curPage[i];
           bgBox.innerText = content;
           i++;
           lastTime = nowTime;
         }
-        requestAnimationFrame(printBg);
-      }
-      printPage1()
+      })
+      }})()
     </script>
   </body>
 </html>
